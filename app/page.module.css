@@ -1,142 +1,658 @@
+/* Homepage CSS (Hero Variant 1 + Marquee) */
+
 .page {
-  --background: #fafafa;
-  --foreground: #fff;
+  width: 100%;
+  background: #ffffff;
+}
 
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
-
-  display: flex;
-  flex: 1;
-  flex-direction: column;
+/* Shared Buttons */
+.btnPrimary {
+  background: #E3000F;
+  color: #ffffff;
+  padding: 16px 32px;
+  border-radius: 100px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
 }
 
-.main {
+.btnPrimary:hover {
+  background: #c0000c;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(227, 0, 15, 0.2);
+}
+
+.btnSecondary {
+  background: transparent;
+  color: #193751;
+  padding: 16px 32px;
+  border-radius: 100px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  border: 2px solid #e2e8f0;
+  cursor: pointer;
+}
+
+.btnSecondary:hover {
+  border-color: #193751;
+  background: rgba(25, 55, 81, 0.05);
+}
+
+.actions {
   display: flex;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+/* Variant 1: Modern Split */
+.hero {
+  display: flex;
+  align-items: center;
+  padding: 40px 80px 0 80px;
+  min-height: 500px;
+  background: radial-gradient(circle at 100% 50%, #f8f9fa 0%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.heroContent {
   flex: 1;
-  width: 100%;
-  max-width: 800px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
+  position: relative;
+  height: 400px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
 }
 
-.intro {
+.slideContent {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(20px) translateY(-50%);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.slideContent.active {
+  opacity: 1;
+  transform: translateY(0) translateY(-50%);
+  pointer-events: auto;
+}
+
+.badge {
+  background: rgba(227, 0, 15, 0.1);
+  color: #E3000F;
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  display: inline-block;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 50px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #193751;
+  margin-bottom: 24px;
+}
+
+.text {
+  font-size: 18px;
+  color: #718096;
+  line-height: 1.6;
+}
+
+.imageWrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 500px;
+}
+
+.heroImage {
+  max-width: 120%;
+  max-height: 560px;
+  object-fit: contain;
+  object-position: bottom;
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+  position: relative;
+  top: 40px;
+  z-index: 2;
+}
+
+.blob {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: #E3000F;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.05;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.dots {
+  position: absolute;
+  bottom: 20px;
+  left: 80px;
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #CBD5E0;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dotActive {
+  background: #E3000F;
+  width: 32px;
+  border-radius: 100px;
+}
+
+/* Brands Marquee */
+.marquee {
+  background: #ffffff;
+  padding: 30px 0;
+  border-top: 1px solid rgba(0,0,0,0.05);
+  overflow: hidden;
+  display: flex;
+  white-space: nowrap;
+}
+
+.marqueeContent {
+  display: flex;
+  gap: 80px;
+  animation: scroll 20s linear infinite;
+  align-items: center;
+  padding-left: 80px;
+}
+
+.brandName {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: #CBD5E0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    padding: 40px 20px 0 20px;
+    text-align: center;
+  }
+  .actions {
+    justify-content: center;
+    flex-direction: column;
+  }
+  .title {
+    font-size: 40px;
+  }
+  .imageWrapper {
+    height: auto;
+    margin-top: 40px;
+  }
+  .heroImage {
+    max-width: 100%;
+    top: 0;
+  }
+}
+
+/* Variant 2: Minimalist Row (Stats) */
+.statsRow {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 60px 0;
+  margin-top: 40px;
+  margin-bottom: 60px;
+}
+
+.statItem {
+  text-align: center;
+  flex: 1;
+  position: relative;
+}
+
+.statItem:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 60%;
+  width: 1px;
+  background-color: #e2e8f0;
+}
+
+.statNumber {
+  font-family: 'Outfit', sans-serif;
+  font-size: 64px;
+  font-weight: 300;
+  color: #193751;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.statLabel {
+  font-size: 15px;
+  color: #718096;
+}
+
+@media (max-width: 768px) {
+  .statsRow {
+    flex-direction: column;
+    gap: 40px;
+    padding: 40px 0;
+  }
+  .statItem:not(:last-child)::after {
+    display: none;
+  }
+}
+
+/* Featured Products - Bento Box */
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sectionTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  color: #193751;
+  margin: 0;
+}
+
+.viewAllBtn {
+  background: transparent;
+  color: #E3000F;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.viewAllBtn:hover {
+  color: #c0000c;
+  transform: translateX(4px);
+}
+
+.bentoContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+
+.v2Bento {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  height: 600px;
+}
+
+.bentoMain {
+  background: #f8f9fa;
+  border-radius: 24px;
+  padding: 40px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+}
+
+.bentoMainContent {
+  flex: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
+  justify-content: center;
+}
+
+.bentoMainImage {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.bentoMainImage img {
+  position: absolute;
+  right: -50px;
+  bottom: -50px;
+  height: 120%;
+  object-fit: contain;
+  filter: drop-shadow(-20px 20px 40px rgba(0,0,0,0.1));
+}
+
+.bentoMainTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #193751;
+  margin-bottom: 16px;
+}
+
+.bentoMainPrice {
+  font-family: 'Outfit', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  color: #E3000F;
+  margin-bottom: 32px;
+}
+
+.bentoMainBtn {
+  background: #E3000F;
+  color: #ffffff;
+  padding: 16px 32px;
+  border-radius: 100px;
+  font-weight: 700;
+  display: inline-block;
+  text-decoration: none;
+  width: fit-content;
+  transition: all 0.2s;
+}
+
+.bentoMainBtn:hover {
+  background: #c0000c;
+}
+
+.bentoSide {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
   gap: 24px;
 }
 
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
-}
-
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
-}
-
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
+.bentoSmall {
+  background: #f8f9fa;
+  border-radius: 24px;
+  padding: 24px;
   display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
-}
-
-.ctas a {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  text-decoration: none;
+  transition: transform 0.2s;
 }
 
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
+.bentoSmall:hover {
+  transform: translateX(-8px);
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+.bentoSmallImage {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-right: 24px;
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
+.bentoSmallTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #193751;
+  margin: 0 0 8px 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .v2Bento {
+    grid-template-columns: 1fr;
+    height: auto;
   }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
+  .bentoMainImage {
+    height: 300px;
+    margin-top: 20px;
   }
-}
-
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
+  .bentoMainImage img {
+    right: 0;
+    bottom: 0;
+    height: 100%;
   }
-
-  .intro {
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
     gap: 16px;
   }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
 }
 
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
+/* Clients Marquee (Infinity Loop) */
+.clientsMarqueeSection {
+  background-color: #ffffff;
+  padding: 80px 0;
+  overflow: hidden;
+  border-top: 1px solid #f0f2f5;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.clientsTitle {
+  text-align: center;
+  font-family: 'Outfit', sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  color: #193751;
+  margin-bottom: 60px;
+}
+
+.clientsMarqueeContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.clientsMarqueeContainer::before,
+.clientsMarqueeContainer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 150px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.clientsMarqueeContainer::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(255,255,255,1), rgba(255,255,255,0));
+}
+
+.clientsMarqueeContainer::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(255,255,255,1), rgba(255,255,255,0));
+}
+
+.clientsMarqueeTrack {
+  display: flex;
+  width: max-content;
+  animation: scrollClients 120s linear infinite;
+}
+
+.clientsMarqueeTrack:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollClients {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.clientsMarqueeTrackReverse {
+  display: flex;
+  width: max-content;
+  animation: scrollClientsReverse 120s linear infinite;
+}
+
+.clientsMarqueeTrackReverse:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollClientsReverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.clientLogoWrapper {
+  height: 80px;
+  width: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 40px;
+}
+
+.clientLogo {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.clientLogo:hover {
+  transform: scale(1.1);
+}
+
+/* Yandex Map Section */
+.mapSection {
+  padding: 80px 20px;
+  background-color: #ffffff;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.mapContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  height: 500px;
+  position: relative;
+  background: #f0f2f5;
+}
+
+.mapOverlay {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  z-index: 10;
+  max-width: 320px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.mapOverlayTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: #193751;
+  margin: 0 0 12px 0;
+}
+
+.mapOverlayText {
+  font-size: 15px;
+  color: #718096;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.mapContact {
+  margin-bottom: 24px;
+}
+
+.mapContact p {
+  margin: 8px 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #193751;
+}
+
+.mapBtn {
+  display: block;
+  text-align: center;
+  background: #E3000F;
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.mapBtn:hover {
+  background: #c0000c;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .mapOverlay {
+    position: static;
+    max-width: 100%;
+    border-radius: 0;
+    box-shadow: none;
   }
-
-  .page {
-    --background: #000;
-    --foreground: #000;
-
-    --text-primary: #ededed;
-    --text-secondary: #999;
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
+  .mapContainer {
+    height: auto;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .mapContainer iframe {
+    position: static !important;
+    height: 400px !important;
   }
 }
