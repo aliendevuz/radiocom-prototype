@@ -63,7 +63,9 @@ export default function ClientsMarquee() {
 
   return (
     <section className={styles.clientsMarqueeSection}>
-      <h2 className={styles.clientsTitle}>Bizning Mijozlar</h2>
+      <div className="container">
+        <h2 className={styles.clientsTitle}>Bizning Mijozlar</h2>
+      </div>
       
       <div className={styles.clientsMarqueeContainer}>
         {/* Track 1: Left */}

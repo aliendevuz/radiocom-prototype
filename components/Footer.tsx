@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import styles from './Footer.module.css';
 
@@ -18,73 +20,62 @@ export default function Footer() {
 
   return (
     <footer className={styles.footer}>
-      <div className={styles.top}>
-        <div>
-          <h3 className={styles.newsletterTitle}>
-            Yangiliklardan xabardor bo'ling
-          </h3>
-          <p className={styles.text}>
-            Yangi mahsulotlar va maxsus takliflar haqida birinchilardan
-            bo'lib biling.
-          </p>
+      <div className="container">
+        {/* Newsletter Section */}
+        <div className={styles.top}>
+          <div>
+            <div className={styles.newsletterTitle}>Yangiliklarga obuna bo'ling</div>
+            <div className={styles.text}>Eng so'nggi maxsulotlar va chegirmalardan xabardor bo'ling.</div>
+          </div>
+          <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+            <input type="email" placeholder="Email manzilingiz" className={styles.input} />
+            <button type="submit" className={styles.btn}>Obuna</button>
+          </form>
         </div>
-        <form className={styles.form}>
-          <input
-            type="email"
-            placeholder="Email manzilingiz"
-            className={styles.input}
-          />
-          <button type="button" className={styles.btn}>
-            Obuna bo'lish
-          </button>
-        </form>
-      </div>
-      
-      <div className={styles.grid}>
-        <div>
-          <img
-            src="/logo-black.svg"
-            alt="Radiocom"
-            className={styles.logo}
-          />
-          <p
-            className={styles.text}
-            style={{ maxWidth: "300px", marginBottom: "24px" }}
-          >
-            O'zbekistondagi yetakchi ratsiya va professional aloqa
-            vositalari distribyutori.
-          </p>
-          {socialIcons}
+
+        {/* Main Grid */}
+        <div className="grid-12" style={{ marginBottom: '60px' }}>
+          {/* Brand Info */}
+          <div className="span-6">
+            <Link href="/">
+              <img src="/logo-black.svg" alt="Radiocom Logo" className={styles.logo} />
+            </Link>
+            <div className={styles.text} style={{ marginBottom: '24px', maxWidth: '300px' }}>
+              O'zbekistondagi eng yirik professional ratsiya va aloqa tizimlari distribyutori. 
+              Sifatli, ishonchli va kafolatlangan xizmatlar.
+            </div>
+            {socialIcons}
+          </div>
+
+          {/* Quick Links */}
+          <div className="span-3">
+            <h4 className={styles.title}>Kompaniya</h4>
+            <ul className={styles.linkList}>
+              <li><Link href="/about">Biz haqimizda</Link></li>
+              <li><Link href="/products">Maxsulotlar</Link></li>
+              <li><Link href="/services">Xizmatlar</Link></li>
+              <li><Link href="/pttoc">PTToC Tizimi</Link></li>
+            </ul>
+          </div>
+
+          {/* Contacts */}
+          <div className="span-3">
+            <h4 className={styles.title}>Bog'lanish</h4>
+            <ul className={styles.linkList}>
+              <li>O'zbekiston, Toshkent</li>
+              <li>+998 (78) 113-16-18</li>
+              <li>info@radiocom.uz</li>
+            </ul>
+          </div>
         </div>
-        <div>
-          <h3 className={styles.title}>Menyu</h3>
-          <ul className={styles.linkList}>
-            <li><Link href="/">Bosh sahifa</Link></li>
-            <li><Link href="/about">Biz haqimizda</Link></li>
-            <li><Link href="/products">Maxsulotlar</Link></li>
-            <li><Link href="/services">Xizmatlar</Link></li>
-            <li><Link href="/pttoc">PTToC tizimi</Link></li>
-          </ul>
-        </div>
-        <div>
-          <h3 className={styles.title}>Kontaktlar</h3>
-          <ul className={styles.linkList}>
-            <li><a href="tel:+998781131618">+998 (78) 113-16-18</a></li>
-            <li><a href="tel:+998933870710">+998 (93) 387-07-10</a></li>
-            <li><a href="mailto:info@radiocom.uz">info@radiocom.uz</a></li>
-            <li style={{lineHeight: 1.4}}>Toshkent sh., Mirzo-Ulug'bek tumani,<br/>O'zbekiston Ovozi ko'chasi 2 (Tata mehmonxonasi)</li>
-            <li style={{marginTop: "8px", fontSize: "14px"}}><strong>Ish vaqti:</strong> Dush-Jum 09:00-18:00</li>
-          </ul>
-        </div>
-      </div>
-      
-      <div className={styles.bottom}>
-        <span>
-          © {new Date().getFullYear()} Radiocom. All rights reserved.
-        </span>
-        <div className={styles.bottomLinks}>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
+
+        {/* Bottom Bar */}
+        <div className={styles.bottom}>
+          <div>&copy; {new Date().getFullYear()} Radiocom. Barcha huquqlar himoyalangan.</div>
+          <div className={styles.bottomLinks}>
+            <Link href="#">Maxfiylik siyosati</Link>
+            <Link href="#">Foydalanish shartlari</Link>
+          </div>
         </div>
       </div>
     </footer>

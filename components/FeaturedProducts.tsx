@@ -23,39 +23,46 @@ export default async function FeaturedProducts() {
   };
 
   return (
-    <div className={styles.bentoContainer}>
+    <div className="container" style={{ marginBottom: '80px' }}>
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>Top Ratsiyalar</h2>
         <Link href="/products" className={styles.viewAllBtn}>Barchasi &rarr;</Link>
       </div>
 
-      <div className={styles.v2Bento}>
+      <div className="grid-12" style={{ height: '600px' }}>
         {/* Main Featured Item */}
-        <div className={styles.bentoMain}>
+        <Link href={`/products/${products[0].id}`} className={`span-8 ${styles.bentoMain}`}>
           <div className={styles.bentoMainContent}>
+            <span className={styles.badge} style={{ width: 'fit-content', marginBottom: '16px' }}>Top Savdo</span>
             <h3 className={styles.bentoMainTitle}>{products[0].name}</h3>
             <div className={styles.bentoMainPrice}>{formatPrice(products[0].list_price)}</div>
-            <Link href={`/products/${products[0].id}`} className={styles.bentoMainBtn}>Hoziroq Ko'rish</Link>
+            <span className={styles.bentoMainBtn}>Hoziroq Ko'rish &rarr;</span>
           </div>
           <div className={styles.bentoMainImage}>
             <img src={getImageSrc(products[0])} alt={products[0].name} />
           </div>
-        </div>
+        </Link>
 
         {/* Two Smaller Items */}
-        <div className={styles.bentoSide}>
+        <div className={`span-4 ${styles.bentoSide}`}>
           <Link href={`/products/${products[1].id}`} className={styles.bentoSmall}>
-            <img src={getImageSrc(products[1])} alt={products[1].name} className={styles.bentoSmallImage} />
-            <div>
+            <div className={styles.bentoSmallImageWrapper}>
+              <img src={getImageSrc(products[1])} alt={products[1].name} className={styles.bentoSmallImage} />
+            </div>
+            <div className={styles.bentoSmallContent}>
               <h4 className={styles.bentoSmallTitle}>{products[1].name}</h4>
-              <div style={{ color: '#E3000F', fontWeight: 'bold' }}>{formatPrice(products[1].list_price)}</div>
+              <div className={styles.bentoSmallPrice}>{formatPrice(products[1].list_price)}</div>
+              <span className={styles.bentoSmallArrow}>Batafsil &rarr;</span>
             </div>
           </Link>
           <Link href={`/products/${products[2].id}`} className={styles.bentoSmall}>
-            <img src={getImageSrc(products[2])} alt={products[2].name} className={styles.bentoSmallImage} />
-            <div>
+            <div className={styles.bentoSmallImageWrapper}>
+              <img src={getImageSrc(products[2])} alt={products[2].name} className={styles.bentoSmallImage} />
+            </div>
+            <div className={styles.bentoSmallContent}>
               <h4 className={styles.bentoSmallTitle}>{products[2].name}</h4>
-              <div style={{ color: '#E3000F', fontWeight: 'bold' }}>{formatPrice(products[2].list_price)}</div>
+              <div className={styles.bentoSmallPrice}>{formatPrice(products[2].list_price)}</div>
+              <span className={styles.bentoSmallArrow}>Batafsil &rarr;</span>
             </div>
           </Link>
         </div>

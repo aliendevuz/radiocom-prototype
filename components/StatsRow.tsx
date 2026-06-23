@@ -60,16 +60,18 @@ export default function StatsRow() {
   const getSuffix = (val: number, suf: string) => val >= 1000 ? "K" + suf : suf;
 
   return (
-    <div className={styles.statsRow}>
-      {stats.map((stat, i) => (
-        <div key={i} className={styles.statItem}>
-          <div className={styles.statNumber}>
-            <CountUp end={formatValue(stat.value)} duration={2500} />
-            {getSuffix(stat.value, stat.suffix)}
+    <div className="container" style={{ marginTop: '-40px', position: 'relative', zIndex: 20 }}>
+      <div className={styles.statsRow}>
+        {stats.map((stat, i) => (
+          <div key={i} className={styles.statItem}>
+            <div className={styles.statNumber}>
+              <CountUp end={formatValue(stat.value)} duration={2500} />
+              {getSuffix(stat.value, stat.suffix)}
+            </div>
+            <div className={styles.statLabel}>{stat.label}</div>
           </div>
-          <div className={styles.statLabel}>{stat.label}</div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

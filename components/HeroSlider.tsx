@@ -36,42 +36,86 @@ const slides = [
 
 export default function HeroSlider() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  // the required distance between touchStart and touchEnd to be detected as a swipe
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    } else if (isRightSwipe) {
+      setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    }
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 8000);
     return () => clearInterval(timer);
-  }, []);
+  }, [currentSlide]);
 
   return (
     <>
-      <section className={styles.hero}>
-        <div className={styles.heroContent}>
-          {slides.map((slide, index) => (
-            <div key={index} className={`${styles.slideContent} ${index === currentSlide ? styles.active : ''}`}>
-              <span className={styles.badge}>{slide.badge}</span>
-              <h1 className={styles.title}>{slide.title}</h1>
-              <p className={styles.text}>{slide.text}</p>
-              <div className={styles.actions}>
-                <Link href={slide.primaryLink} className={styles.btnPrimary}>{slide.primaryBtn}</Link>
-                <Link href={slide.secondaryLink} className={styles.btnSecondary}>{slide.secondaryBtn}</Link>
+      <section 
+        className={styles.hero}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        
+        <div className="container" style={{ position: 'relative', height: '100%', zIndex: 10 }}>
+          <div className="grid-12" style={{ alignItems: 'center', height: '100%' }}>
+            {/* Left Content (Spans 6 columns) */}
+            <div className="span-6">
+              <div className={styles.heroContent}>
+                {slides.map((slide, index) => (
+                  <div key={index} className={`${styles.slideContent} ${index === currentSlide ? styles.active : ''}`}>
+                    <span className={styles.badge}>{slide.badge}</span>
+                    <h1 className={styles.title}>{slide.title}</h1>
+                    <p className={styles.text}>{slide.text}</p>
+                    <div className={styles.actions}>
+                      <Link href={slide.primaryLink} className={styles.btnPrimary}>{slide.primaryBtn}</Link>
+                      <Link href={slide.secondaryLink} className={styles.btnSecondary}>{slide.secondaryBtn}</Link>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
-        <div className={styles.imageWrapper}>
-          <img src="/hero-image.png" alt="Milliy Gvardiya Xodimi" className={styles.heroImage} />
-        </div>
-        
-        <div className={styles.dots}>
-          {slides.map((_, index) => (
-            <div 
-              key={index} 
-              className={`${styles.dot} ${index === currentSlide ? styles.dotActive : ''}`}
-              onClick={() => setCurrentSlide(index)}
-            />
-          ))}
+
+            {/* Right Image (Spans 6 columns) */}
+            <div className="span-6">
+              <div className={styles.imageWrapper}>
+                <img src="/hero-image.png" alt="Milliy Gvardiya Xodimi" className={styles.heroImage} />
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.dots}>
+            {slides.map((_, index) => (
+              <div 
+                key={index} 
+                className={`${styles.dot} ${index === currentSlide ? styles.dotActive : ''}`}
+                onClick={() => setCurrentSlide(index)}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
