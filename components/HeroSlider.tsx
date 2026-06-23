@@ -61,7 +61,6 @@ export default function HeroSlider() {
           ))}
         </div>
         <div className={styles.imageWrapper}>
-          <div className={styles.blob}></div>
           <img src="/hero-image.png" alt="Milliy Gvardiya Xodimi" className={styles.heroImage} />
         </div>
         
