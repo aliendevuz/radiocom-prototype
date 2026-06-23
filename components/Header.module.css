@@ -1,0 +1,170 @@
+/* Global Header CSS (Variant 3: Modern Split) */
+
+.navLinks {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navLinks a {
+  text-decoration: none;
+  color: #193751;
+  font-weight: 600;
+  font-size: 15px;
+  transition: color 0.2s;
+}
+
+.navLinks a:hover {
+  color: #e3000f;
+}
+
+.utils {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.iconBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #193751;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.langSwitch {
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  color: #193751;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.logoImg {
+  height: 36px;
+  width: auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #f4f5f7;
+  padding: 6px 16px;
+  border-radius: 100px;
+}
+
+.pill .iconBtn:hover {
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Active Link State */
+.activeLink {
+  color: #e3000f !important;
+  position: relative;
+}
+
+.activeLink::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #e3000f;
+  border-radius: 2px;
+}
+
+/* Custom Language Dropdown */
+.langWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dropdownIcon {
+  transition: transform 0.3s ease;
+  color: #718096;
+}
+
+.dropdownIcon[data-open="true"] {
+  transform: rotate(180deg);
+}
+
+.langPopup {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 8px 0;
+  min-width: 80px;
+  animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: top;
+  z-index: 100;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scaleY(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+.langOption {
+  padding: 8px 16px;
+  font-family: "Outfit", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #193751;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: center;
+}
+
+.langOption:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.activeLang {
+  color: #e3000f;
+  font-weight: 700;
+  background: rgba(227, 0, 15, 0.05);
+}

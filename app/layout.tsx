@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Outfit, DM_Sans } from "next/font/google";
 import "./globals.css";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -24,7 +26,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="uz" className={`${outfit.variable} ${dmSans.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Header />
+        <main>{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }
