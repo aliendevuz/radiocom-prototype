@@ -79,6 +79,7 @@ export default function HeroSlider() {
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
       >
+        <div className={styles.heroDecoration}></div>
         
         <div className="container" style={{ position: 'relative', height: '100%', zIndex: 10 }}>
           <div className="grid-12" style={{ alignItems: 'center', height: '100%' }}>
