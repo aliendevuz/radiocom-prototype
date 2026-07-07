@@ -187,3 +187,28 @@ export async function getPublishedProductsCount(): Promise<number> {
   return getFilteredProductsCount({});
 }
 
+export async function getProductById(id: number): Promise<OdooProduct | null> {
+  try {
+    const uid = await getUid();
+    const products = await callOdoo('object', 'execute_kw', [
+      ODOO_DB,
+      uid,
+      ODOO_PASSWORD,
+      'product.template',
+      'read',
+      [[id]],
+      {
+        fields: ['id', 'name', 'list_price', 'description_sale', 'categ_id', 'image_512']
+      }
+    ]);
+    if (Array.isArray(products) && products.length > 0) {
+      return products[0] as OdooProduct;
+    }
+    return null;
+  } catch (error) {
+    console.error(`Error fetching product with ID ${id} from Odoo:`, error);
+    return null;
+  }
+}
+
+
