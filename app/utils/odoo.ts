@@ -40,7 +40,7 @@ async function callOdoo(service: string, method: string, args: any[]): Promise<a
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
-    cache: 'no-store' // Keep it fresh
+    next: { revalidate: 300 } // Cache API response for 5 minutes (300 seconds)
   });
 
   const json = await response.json();

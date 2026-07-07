@@ -92,31 +92,26 @@
   box-shadow: 0 4px 14px rgba(227, 0, 15, 0.2);
 }
 
-/* Two Column Product Layout */
-.productLayout {
+/* ==========================================================================
+   SECTION 1: Main Info (Product Gallery & Call-to-actions)
+   ========================================================================== */
+
+.mainSection {
   display: grid;
   grid-template-columns: 1fr;
   gap: 40px;
-  margin-top: 16px;
+  margin-bottom: 60px;
   align-items: start;
 }
 
 @media (min-width: 992px) {
-  .productLayout {
+  .mainSection {
     grid-template-columns: 1fr 1.2fr;
     gap: 60px;
   }
 }
 
-/* Left Column Container */
-.leftColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-/* Gallery Wrapper */
-.galleryWrapper {
+.galleryCol {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -225,70 +220,8 @@
   object-fit: contain;
 }
 
-/* Trust Badges */
-.trustBadges {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.4);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  padding: 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.04);
-}
-
-@media (max-width: 576px) {
-  .trustBadges {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
-.badgeItem {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-}
-
-.badgeIcon {
-  color: #193751;
-  flex-shrink: 0;
-}
-
-.badgeText {
-  display: flex;
-  flex-direction: column;
-}
-
-.badgeText h4 {
-  font-family: 'Outfit', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  color: #112537;
-  margin-bottom: 2px;
-}
-
-.badgeText p {
-  font-size: 10px;
-  color: #718096;
-  white-space: nowrap;
-}
-
-/* Left Section: Komplektatsiya */
-.leftSection {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  padding: 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-}
-
 /* Right Column: Information */
-.infoCard {
+.infoCol {
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -336,7 +269,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  margin-bottom: 40px;
 }
 
 .btnPrimary, .btnSecondary {
@@ -383,11 +315,35 @@
   transform: translateY(-2px);
 }
 
-/* Sections for specs & box content */
-.section {
-  margin-top: 32px;
+/* ==========================================================================
+   SECTION 2: Details Section (Trust Timeline & Specifications)
+   ========================================================================== */
+
+.detailsSection {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 50px;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
-  padding-top: 28px;
+  padding-top: 50px;
+  margin-bottom: 70px;
+  align-items: start;
+}
+
+@media (min-width: 992px) {
+  .detailsSection {
+    grid-template-columns: 1fr 1.2fr;
+    gap: 60px;
+  }
+}
+
+.detailsLeftCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.detailsRightCol {
+  display: flex;
+  flex-direction: column;
 }
 
 .sectionTitle {
@@ -396,11 +352,98 @@
   font-weight: 800;
   text-transform: uppercase;
   color: #112537;
-  margin-bottom: 16px;
-  letter-spacing: 0.05em;
+  margin-bottom: 24px;
+  letter-spacing: 0.06em;
+  position: relative;
+  display: inline-block;
 }
 
-/* Box Content List */
+/* Timeline Trust List */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 21px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  background: rgba(25, 55, 81, 0.1);
+}
+
+.timelineItem {
+  display: flex;
+  gap: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.timelineMarker {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid rgba(25, 55, 81, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #E3000F;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.timelineItem:hover .timelineMarker {
+  border-color: #E3000F;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(227, 0, 15, 0.15);
+}
+
+.timelineContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.timelineContent h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  color: #112537;
+  margin-bottom: 4px;
+}
+
+.timelineContent p {
+  font-size: 13px;
+  color: #718096;
+}
+
+/* Spacing Block */
+.spacingBlock {
+  height: 48px;
+}
+
+/* Komplektatsiya Box */
+.komplektBox {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.komplektBox .sectionTitle {
+  margin-bottom: 16px;
+}
+
 .komplektList {
   list-style: none;
   padding: 0;
@@ -408,6 +451,12 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .komplektList {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .komplektItem {
@@ -429,7 +478,6 @@
 .specsTable {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 8px;
 }
 
 .specRow {
@@ -442,7 +490,7 @@
 }
 
 .specLabel, .specValue {
-  padding: 12px 16px;
+  padding: 14px 16px;
   font-size: 14px;
   text-align: left;
 }
@@ -464,4 +512,180 @@
   .specLabel {
     width: 50%;
   }
+}
+
+.noSpecsText {
+  color: #718096;
+  font-size: 14px;
+  padding: 24px;
+  text-align: center;
+  background: rgba(0,0,0,0.02);
+  border-radius: 8px;
+}
+
+/* ==========================================================================
+   SECTION 3: Suggestions Grid (Sizga yoqishi mumkin)
+   ========================================================================== */
+
+.suggestionsSection {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding-top: 60px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.suggestionsTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.75rem); /* 20px to 28px */
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #112537;
+  margin-bottom: 32px;
+  letter-spacing: 0.05em;
+}
+
+.suggestionsGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 32px;
+}
+
+@media (min-width: 640px) {
+  .suggestionsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .suggestionsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Suggestion Card Layout */
+.suggestionCard {
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  position: relative;
+}
+
+.suggestionCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.sImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  overflow: hidden;
+}
+
+.sProductImage {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.04));
+}
+
+.suggestionCard:hover .sProductImage {
+  transform: scale(1.08);
+}
+
+.sNoImage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #cbd5e0;
+  background: #f7fafc;
+  width: 100%;
+  height: 100%;
+}
+
+.sContent {
+  padding: 0 20px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.sCategoryTag {
+  align-self: flex-start;
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #A2AAB3;
+  margin-bottom: 8px;
+  letter-spacing: 0.08em;
+}
+
+.sProductName {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #112537;
+  margin-bottom: 12px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.sProductName a:hover {
+  color: #E3000F;
+}
+
+.sFooterRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  gap: 12px;
+}
+
+.sPrice {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  color: #112537;
+}
+
+.sCtaButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-color: transparent;
+  color: #E3000F;
+  border: 1px solid rgba(227, 0, 15, 0.3);
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sCtaButton:hover {
+  background-color: #E3000F;
+  color: #ffffff;
+  border-color: #E3000F;
+  box-shadow: 0 4px 10px rgba(227, 0, 15, 0.15);
 }

@@ -8,7 +8,7 @@ import {
 import FilterControls from "./FilterControls";
 import { Suspense } from "react";
 
-export const revalidate = 0; // Disable static caching so we always fetch fresh data from Odoo
+export const revalidate = 300; // Cache the catalog page for 5 minutes (300 seconds)
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
