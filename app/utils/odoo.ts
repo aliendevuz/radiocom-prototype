@@ -50,21 +50,23 @@ async function callOdoo(service: string, method: string, args: any[]): Promise<a
   return json.result;
 }
 
-let cachedUid: number | null = null;
+let cachedUidPromise: Promise<number> | null = null;
 
 async function getUid(): Promise<number> {
-  if (cachedUid !== null) return cachedUid;
+  if (cachedUidPromise !== null) return cachedUidPromise;
   if (!ODOO_DB || !ODOO_USERNAME || !ODOO_PASSWORD) {
     throw new Error('Odoo credentials (DB, Username, Password/API key) are missing.');
   }
-  const uid = await callOdoo('common', 'authenticate', [
+  cachedUidPromise = callOdoo('common', 'authenticate', [
     ODOO_DB,
     ODOO_USERNAME,
     ODOO_PASSWORD,
     {}
-  ]);
-  cachedUid = uid;
-  return uid;
+  ]).catch(err => {
+    cachedUidPromise = null;
+    throw err;
+  });
+  return cachedUidPromise;
 }
 
 export interface FilterOptions {
