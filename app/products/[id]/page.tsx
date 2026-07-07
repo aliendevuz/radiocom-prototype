@@ -1,6 +1,7 @@
 import Link from 'next/link';
-import { ArrowLeft, Check, Phone, Send } from 'lucide-react';
+import { ArrowLeft, Check, Phone, Send, ShieldCheck, Award, Truck } from 'lucide-react';
 import { getProductById } from '../../utils/odoo';
+import ProductGallery from './ProductGallery';
 import styles from './product-detail.module.css';
 
 export const revalidate = 0; // Disable static caching so we fetch fresh data on every request
@@ -40,12 +41,10 @@ function parseDescription(desc: string | boolean): ParsedDetails {
     }
 
     if (currentSection === 'komplekt') {
-      // Remove leading dash or bullet point
       const clean = line.replace(/^-\s*/, '');
       result.komplektatsiya.push(clean);
     } else if (currentSection === 'xarakter') {
       const clean = line.replace(/^-\s*/, '');
-      // Try to split on ":" or "—" or " - "
       let splitIdx = clean.indexOf(':');
       if (splitIdx === -1) {
         splitIdx = clean.indexOf('—');
@@ -107,7 +106,6 @@ export default async function ProductDetailPage({ params }: PageProps) {
     );
   }
 
-  const hasImage = typeof product.image_512 === 'string';
   const categoryName = Array.isArray(product.categ_id) ? product.categ_id[1] : 'Ratsiya';
 
   const formatPrice = (price: number) => {
@@ -129,36 +127,61 @@ export default async function ProductDetailPage({ params }: PageProps) {
           Katalogga qaytish
         </Link>
 
-        {/* Main Product Section */}
+        {/* Balanced Grid Layout */}
         <div className={styles.productLayout}>
-          {/* Left Column: Image Card */}
-          <div className={styles.imageCard}>
-            {hasImage ? (
-              <img
-                src={`data:image/png;base64,${product.image_512}`}
-                alt={product.name}
-                className={styles.productImage}
-              />
-            ) : (
-              <div className={styles.noImage}>
-                <svg
-                  width="64"
-                  height="64"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
-                  <rect x="3" y="3" width="18" height="18" rx="2" />
-                  <circle cx="8.5" cy="8.5" r="1.5" />
-                  <path d="M21 15l-5-5L5 21" />
-                </svg>
-                <span style={{ marginTop: "12px" }}>Rasm mavjud emas</span>
+          
+          {/* Left Column: Image, Gallery, Badges & In the Box */}
+          <div className={styles.leftColumn}>
+            
+            {/* Interactive Image Gallery */}
+            <ProductGallery
+              mainImage={product.image_512}
+              extraImages={product.extra_images || []}
+              productName={product.name}
+            />
+
+            {/* Trust Badges Row */}
+            <div className={styles.trustBadges}>
+              <div className={styles.badgeItem}>
+                <ShieldCheck size={20} className={styles.badgeIcon} />
+                <div className={styles.badgeText}>
+                  <h4>1 yil kafolat</h4>
+                  <p>Rasmiy servis markazidan</p>
+                </div>
+              </div>
+              <div className={styles.badgeItem}>
+                <Award size={20} className={styles.badgeIcon} />
+                <div className={styles.badgeText}>
+                  <h4>100% Original</h4>
+                  <p>Sertifikatlangan mahsulot</p>
+                </div>
+              </div>
+              <div className={styles.badgeItem}>
+                <Truck size={20} className={styles.badgeIcon} />
+                <div className={styles.badgeText}>
+                  <h4>Yetkazib berish</h4>
+                  <p>Tezkor yetkazib berish xizmati</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Komplektatsiya (In the box) placed on the left under image gallery */}
+            {parsed.komplektatsiya.length > 0 && (
+              <div className={styles.leftSection}>
+                <h3 className={styles.sectionTitle}>Komplektatsiya (Qutida nimalar bor)</h3>
+                <ul className={styles.komplektList}>
+                  {parsed.komplektatsiya.map((item, idx) => (
+                    <li key={idx} className={styles.komplektItem}>
+                      <Check size={16} className={styles.checkIcon} />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>
 
-          {/* Right Column: Information */}
+          {/* Right Column: General Info, CTA Actions & Technical Specs */}
           <div className={styles.infoCard}>
             <span className={styles.categoryTag}>{categoryName}</span>
             <h1 className={styles.productName}>{product.name}</h1>
@@ -173,7 +196,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               )}
             </div>
 
-            {/* Call to Actions */}
+            {/* Action Buttons */}
             <div className={styles.actionRow}>
               <a
                 href={telegramLink}
@@ -190,22 +213,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               </a>
             </div>
 
-            {/* In the box / Komplektatsiya */}
-            {parsed.komplektatsiya.length > 0 && (
-              <div className={styles.section}>
-                <h2 className={styles.sectionTitle}>Komplektatsiya (Qutida nimalar bor)</h2>
-                <ul className={styles.komplektList}>
-                  {parsed.komplektatsiya.map((item, idx) => (
-                    <li key={idx} className={styles.komplektItem}>
-                      <Check size={16} className={styles.checkIcon} />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Technical Specifications / Xarakteristikalar */}
+            {/* Technical Specifications (Xarakteristikalar) */}
             {parsed.xarakteristikalar.length > 0 && (
               <div className={styles.section}>
                 <h2 className={styles.sectionTitle}>Texnik Xarakteristikalar</h2>
@@ -222,6 +230,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               </div>
             )}
           </div>
+
         </div>
       </div>
     </div>

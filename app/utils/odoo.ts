@@ -7,6 +7,12 @@ const ODOO_DB = process.env.ODOO_DB || '';
 const ODOO_USERNAME = process.env.ODOO_USERNAME || '';
 const ODOO_PASSWORD = process.env.ODOO_API_KEY || process.env.ODOO_PASSWORD || '';
 
+export interface OdooProductImage {
+  id: number;
+  name: string;
+  image_512: string | boolean;
+}
+
 export interface OdooProduct {
   id: number;
   name: string;
@@ -14,6 +20,8 @@ export interface OdooProduct {
   description_sale: string | boolean;
   categ_id: [number, string] | boolean;
   image_512: string | boolean;
+  product_template_image_ids?: number[];
+  extra_images?: OdooProductImage[];
 }
 
 async function callOdoo(service: string, method: string, args: any[]): Promise<any> {
@@ -198,11 +206,31 @@ export async function getProductById(id: number): Promise<OdooProduct | null> {
       'read',
       [[id]],
       {
-        fields: ['id', 'name', 'list_price', 'description_sale', 'categ_id', 'image_512']
+        fields: ['id', 'name', 'list_price', 'description_sale', 'categ_id', 'image_512', 'product_template_image_ids']
       }
     ]);
     if (Array.isArray(products) && products.length > 0) {
-      return products[0] as OdooProduct;
+      const product = products[0] as OdooProduct;
+      if (product.product_template_image_ids && product.product_template_image_ids.length > 0) {
+        try {
+          const extraImages = await callOdoo('object', 'execute_kw', [
+            ODOO_DB,
+            uid,
+            ODOO_PASSWORD,
+            'product.image',
+            'read',
+            [product.product_template_image_ids],
+            { fields: ['id', 'name', 'image_512'] }
+          ]);
+          product.extra_images = extraImages as OdooProductImage[];
+        } catch (err) {
+          console.error("Error fetching extra images from Odoo:", err);
+          product.extra_images = [];
+        }
+      } else {
+        product.extra_images = [];
+      }
+      return product;
     }
     return null;
   } catch (error) {

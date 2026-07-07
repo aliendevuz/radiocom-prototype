@@ -98,6 +98,7 @@
   grid-template-columns: 1fr;
   gap: 40px;
   margin-top: 16px;
+  align-items: start;
 }
 
 @media (min-width: 992px) {
@@ -105,6 +106,20 @@
     grid-template-columns: 1fr 1.2fr;
     gap: 60px;
   }
+}
+
+/* Left Column Container */
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Gallery Wrapper */
+.galleryWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 /* Left Column: Image Card */
@@ -115,7 +130,7 @@
   border-radius: 24px;
   border: 1px solid rgba(255, 255, 255, 0.8);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-  padding: 32px;
+  padding: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -131,15 +146,22 @@
 }
 
 .productImage {
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 95%;
+  max-height: 95%;
   object-fit: contain;
   filter: drop-shadow(0 15px 25px rgba(0,0,0,0.06));
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: imageFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.imageCard:hover .productImage {
-  transform: scale(1.05);
+@keyframes imageFade {
+  from {
+    opacity: 0.5;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .noImage {
@@ -149,6 +171,120 @@
   color: #a0aec0;
   font-size: 14px;
   font-weight: 500;
+}
+
+/* Thumbnail Gallery */
+.thumbnailRow {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 4px 0 12px 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.1) transparent;
+}
+
+.thumbnailRow::-webkit-scrollbar {
+  height: 6px;
+}
+
+.thumbnailRow::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.thumbnailCard {
+  width: 72px;
+  height: 72px;
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+
+.thumbnailCard:hover {
+  border-color: #193751;
+  background: #ffffff;
+  transform: translateY(-2px);
+}
+
+.activeThumbnail {
+  border-color: #E3000F !important;
+  box-shadow: 0 4px 12px rgba(227, 0, 15, 0.15);
+  background: #ffffff;
+}
+
+.thumbnailImage {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Trust Badges */
+.trustBadges {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 576px) {
+  .trustBadges {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.badgeItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.badgeIcon {
+  color: #193751;
+  flex-shrink: 0;
+}
+
+.badgeText {
+  display: flex;
+  flex-direction: column;
+}
+
+.badgeText h4 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #112537;
+  margin-bottom: 2px;
+}
+
+.badgeText p {
+  font-size: 10px;
+  color: #718096;
+  white-space: nowrap;
+}
+
+/* Left Section: Komplektatsiya */
+.leftSection {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
 }
 
 /* Right Column: Information */
@@ -272,12 +408,6 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
-}
-
-@media (min-width: 640px) {
-  .komplektList {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 .komplektItem {
