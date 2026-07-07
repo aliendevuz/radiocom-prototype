@@ -8,7 +8,7 @@ import {
 import FilterControls from "./FilterControls";
 import { Suspense } from "react";
 
-export const revalidate = 0; // Disable static caching so we always fetch fresh data from Odoo
+export const revalidate = 300; // Cache the catalog page for 5 minutes (300 seconds)
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -162,7 +162,7 @@ export default async function V3ProductsPage({ searchParams }: PageProps) {
 
                     return (
                       <article key={product.id} className={styles.card}>
-                        <div className={styles.imageWrapper}>
+                        <Link href={`/products/${product.id}`} className={styles.imageWrapper}>
                           {hasImage ? (
                             <img
                               src={`data:image/png;base64,${product.image_512}`}
@@ -195,17 +195,16 @@ export default async function V3ProductsPage({ searchParams }: PageProps) {
                               </span>
                             </div>
                           )}
-                        </div>
+                        </Link>
 
                         <div className={styles.content}>
                           <span className={styles.categoryTag}>
                             {categoryName}
                           </span>
-                          <h3
-                            className={styles.productName}
-                            title={product.name}
-                          >
-                            {product.name}
+                          <h3 className={styles.productName} title={product.name}>
+                            <Link href={`/products/${product.id}`}>
+                              {product.name}
+                            </Link>
                           </h3>
                           <p className={styles.description}>
                             {typeof product.description_sale === "string"
@@ -217,9 +216,9 @@ export default async function V3ProductsPage({ searchParams }: PageProps) {
                             <span className={styles.price}>
                               {formatPrice(product.list_price)}
                             </span>
-                            <button className={styles.ctaButton}>
+                            <Link href={`/products/${product.id}`} className={styles.ctaButton}>
                               Batafsil
-                            </button>
+                            </Link>
                           </div>
                         </div>
                       </article>

@@ -7,6 +7,12 @@ const ODOO_DB = process.env.ODOO_DB || '';
 const ODOO_USERNAME = process.env.ODOO_USERNAME || '';
 const ODOO_PASSWORD = process.env.ODOO_API_KEY || process.env.ODOO_PASSWORD || '';
 
+export interface OdooProductImage {
+  id: number;
+  name: string;
+  image_512: string | boolean;
+}
+
 export interface OdooProduct {
   id: number;
   name: string;
@@ -14,6 +20,8 @@ export interface OdooProduct {
   description_sale: string | boolean;
   categ_id: [number, string] | boolean;
   image_512: string | boolean;
+  product_template_image_ids?: number[];
+  extra_images?: OdooProductImage[];
 }
 
 async function callOdoo(service: string, method: string, args: any[]): Promise<any> {
@@ -32,7 +40,7 @@ async function callOdoo(service: string, method: string, args: any[]): Promise<a
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
-    cache: 'no-store' // Keep it fresh
+    next: { revalidate: 300 } // Cache API response for 5 minutes (300 seconds)
   });
 
   const json = await response.json();
@@ -187,3 +195,46 @@ export async function getPublishedProductsCount(): Promise<number> {
   return getFilteredProductsCount({});
 }
 
+export async function getProductById(id: number): Promise<OdooProduct | null> {
+  try {
+    const uid = await getUid();
+    const products = await callOdoo('object', 'execute_kw', [
+      ODOO_DB,
+      uid,
+      ODOO_PASSWORD,
+      'product.template',
+      'read',
+      [[id]],
+      {
+        fields: ['id', 'name', 'list_price', 'description_sale', 'categ_id', 'image_512', 'product_template_image_ids']
+      }
+    ]);
+    if (Array.isArray(products) && products.length > 0) {
+      const product = products[0] as OdooProduct;
+      if (product.product_template_image_ids && product.product_template_image_ids.length > 0) {
+        try {
+          const extraImages = await callOdoo('object', 'execute_kw', [
+            ODOO_DB,
+            uid,
+            ODOO_PASSWORD,
+            'product.image',
+            'read',
+            [product.product_template_image_ids],
+            { fields: ['id', 'name', 'image_512'] }
+          ]);
+          product.extra_images = extraImages as OdooProductImage[];
+        } catch (err) {
+          console.error("Error fetching extra images from Odoo:", err);
+          product.extra_images = [];
+        }
+      } else {
+        product.extra_images = [];
+      }
+      return product;
+    }
+    return null;
+  } catch (error) {
+    console.error(`Error fetching product with ID ${id} from Odoo:`, error);
+    return null;
+  }
+}
