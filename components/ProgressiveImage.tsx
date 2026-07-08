@@ -40,6 +40,9 @@ export default function ProgressiveImage({
       className={className}
       loading={loadingAttr}
       style={{
+        width: '100%',
+        height: '100%',
+        objectFit: 'inherit',
         filter: isBlurry ? 'blur(8px)' : 'none',
         transition: 'filter 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)',
         willChange: 'filter',
