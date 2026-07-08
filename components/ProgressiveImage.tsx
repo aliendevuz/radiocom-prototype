@@ -44,8 +44,8 @@ export default function ProgressiveImage({
         height: '100%',
         objectFit: 'inherit',
         filter: isBlurry ? 'blur(8px)' : 'none',
-        transition: 'filter 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)',
-        willChange: 'filter',
+        transition: 'filter 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+        willChange: 'filter, transform',
       }}
     />
   );
