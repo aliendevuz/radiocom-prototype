@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getPublishedProducts, OdooProduct } from '../app/utils/odoo';
+import ProgressiveImage from './ProgressiveImage';
 import styles from '../app/page.module.css';
 
 export default async function FeaturedProducts() {
@@ -39,7 +40,12 @@ export default async function FeaturedProducts() {
             <span className={styles.bentoMainBtn}>Hoziroq Ko'rish &rarr;</span>
           </div>
           <div className={styles.bentoMainImage}>
-            <img src={getImageSrc(products[0])} alt={products[0].name} />
+            <ProgressiveImage
+              src={products[0].image_url}
+              placeholderSrc={products[0].image_url.replace('/image_512', '/image_128')}
+              alt={products[0].name}
+              loadingAttr="eager"
+            />
           </div>
         </Link>
 
@@ -47,7 +53,13 @@ export default async function FeaturedProducts() {
         <div className={`span-4 ${styles.bentoSide}`}>
           <Link href={`/products/${products[1].id}`} className={styles.bentoSmall}>
             <div className={styles.bentoSmallImageWrapper}>
-              <img src={getImageSrc(products[1])} alt={products[1].name} className={styles.bentoSmallImage} />
+              <ProgressiveImage
+                src={products[1].image_url}
+                placeholderSrc={products[1].image_url.replace('/image_512', '/image_128')}
+                alt={products[1].name}
+                className={styles.bentoSmallImage}
+                loadingAttr="lazy"
+              />
             </div>
             <div className={styles.bentoSmallContent}>
               <h4 className={styles.bentoSmallTitle}>{products[1].name}</h4>
@@ -57,7 +69,13 @@ export default async function FeaturedProducts() {
           </Link>
           <Link href={`/products/${products[2].id}`} className={styles.bentoSmall}>
             <div className={styles.bentoSmallImageWrapper}>
-              <img src={getImageSrc(products[2])} alt={products[2].name} className={styles.bentoSmallImage} />
+              <ProgressiveImage
+                src={products[2].image_url}
+                placeholderSrc={products[2].image_url.replace('/image_512', '/image_128')}
+                alt={products[2].name}
+                className={styles.bentoSmallImage}
+                loadingAttr="lazy"
+              />
             </div>
             <div className={styles.bentoSmallContent}>
               <h4 className={styles.bentoSmallTitle}>{products[2].name}</h4>

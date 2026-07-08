@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ProgressiveImage from "../../components/ProgressiveImage";
 import styles from "./products.module.css";
 import {
   getFilteredProducts,
@@ -164,11 +165,12 @@ export default async function V3ProductsPage({ searchParams }: PageProps) {
                       <article key={product.id} className={styles.card}>
                         <Link href={`/products/${product.id}`} className={styles.imageWrapper}>
                           {hasImage ? (
-                            <img
+                            <ProgressiveImage
                               src={product.image_url}
+                              placeholderSrc={product.image_url.replace('/image_512', '/image_128')}
                               alt={product.name}
                               className={styles.productImage}
-                              loading="lazy"
+                              loadingAttr="lazy"
                             />
                           ) : (
                             <div className={styles.noImage}>

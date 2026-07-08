@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ArrowLeft, Check, Phone, Send, ShieldCheck, Award, Truck } from 'lucide-react';
 import { getProductById, getFilteredProducts } from '../../utils/odoo';
+import ProgressiveImage from '../../../components/ProgressiveImage';
 import ProductGallery from './ProductGallery';
 import styles from './product-detail.module.css';
 
@@ -276,11 +277,12 @@ export default async function ProductDetailPage({ params }: PageProps) {
                   <article key={sProduct.id} className={styles.suggestionCard}>
                     <Link href={`/products/${sProduct.id}`} className={styles.sImageWrapper}>
                       {sHasImage ? (
-                        <img
+                        <ProgressiveImage
                           src={sProduct.image_url}
+                          placeholderSrc={sProduct.image_url.replace('/image_512', '/image_128')}
                           alt={sProduct.name}
                           className={styles.sProductImage}
-                          loading="lazy"
+                          loadingAttr="lazy"
                         />
                       ) : (
                         <div className={styles.sNoImage}>

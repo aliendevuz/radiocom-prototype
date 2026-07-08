@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import ProgressiveImage from '../../../components/ProgressiveImage';
 import styles from './product-detail.module.css';
 
 interface OdooProductImage {
@@ -39,9 +40,10 @@ export default function ProductGallery({ mainImage, extraImages, productName }: 
       {/* Main Image Display Box */}
       <div className={styles.imageCard}>
         {currentImage ? (
-          <img
-            key={activeIdx} // Using key triggers CSS animation for smooth transitions
+          <ProgressiveImage
+            key={activeIdx} // Using key triggers CSS animation and state reset for smooth transitions
             src={currentImage}
+            placeholderSrc={currentImage.replace('/image_1920', '/image_128').replace('/image_512', '/image_128')}
             alt={`${productName} - Rasm ${activeIdx + 1}`}
             className={styles.productImage}
           />
@@ -69,6 +71,7 @@ export default function ProductGallery({ mainImage, extraImages, productName }: 
         <div className={styles.thumbnailRow}>
           {allImages.map((imgUrl, idx) => {
             const isActive = idx === activeIdx;
+            const thumbUrl = imgUrl.replace('/image_1920', '/image_128').replace('/image_512', '/image_128');
             return (
               <button
                 key={idx}
@@ -79,7 +82,7 @@ export default function ProductGallery({ mainImage, extraImages, productName }: 
                 aria-label={`Rasm ${idx + 1}`}
               >
                 <img
-                  src={imgUrl}
+                  src={thumbUrl}
                   alt={`${productName} thumbnail ${idx + 1}`}
                   className={styles.thumbnailImage}
                 />
