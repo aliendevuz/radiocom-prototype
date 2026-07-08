@@ -6,7 +6,7 @@ import styles from './product-detail.module.css';
 interface OdooProductImage {
   id: number;
   name: string;
-  image_512: string | boolean;
+  image_url: string;
 }
 
 interface ProductGalleryProps {
@@ -19,13 +19,13 @@ export default function ProductGallery({ mainImage, extraImages, productName }: 
   // Combine main image and extra images into one array for easier thumbnail management
   const allImages: string[] = [];
   
-  if (typeof mainImage === 'string') {
+  if (typeof mainImage === 'string' && mainImage.length > 0) {
     allImages.push(mainImage);
   }
   
   extraImages.forEach(img => {
-    if (typeof img.image_512 === 'string') {
-      allImages.push(img.image_512);
+    if (typeof img.image_url === 'string' && img.image_url.length > 0) {
+      allImages.push(img.image_url);
     }
   });
 
@@ -41,7 +41,7 @@ export default function ProductGallery({ mainImage, extraImages, productName }: 
         {currentImage ? (
           <img
             key={activeIdx} // Using key triggers CSS animation for smooth transitions
-            src={`data:image/png;base64,${currentImage}`}
+            src={currentImage}
             alt={`${productName} - Rasm ${activeIdx + 1}`}
             className={styles.productImage}
           />
@@ -67,7 +67,7 @@ export default function ProductGallery({ mainImage, extraImages, productName }: 
       {/* Thumbnails Row (if multiple images exist) */}
       {allImages.length > 1 && (
         <div className={styles.thumbnailRow}>
-          {allImages.map((imgBase64, idx) => {
+          {allImages.map((imgUrl, idx) => {
             const isActive = idx === activeIdx;
             return (
               <button
@@ -79,7 +79,7 @@ export default function ProductGallery({ mainImage, extraImages, productName }: 
                 aria-label={`Rasm ${idx + 1}`}
               >
                 <img
-                  src={`data:image/png;base64,${imgBase64}`}
+                  src={imgUrl}
                   alt={`${productName} thumbnail ${idx + 1}`}
                   className={styles.thumbnailImage}
                 />

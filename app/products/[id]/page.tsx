@@ -149,7 +149,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
         <section className={styles.mainSection} aria-label="Product General Info">
           <div className={styles.galleryCol}>
             <ProductGallery
-              mainImage={product.image_512}
+              mainImage={product.image_url}
               extraImages={product.extra_images || []}
               productName={product.name}
             />
@@ -270,14 +270,14 @@ export default async function ProductDetailPage({ params }: PageProps) {
             <h2 className={styles.suggestionsTitle}>Tavsiya etiladigan mahsulotlar</h2>
             <div className={styles.suggestionsGrid}>
               {filteredSuggestions.map((sProduct) => {
-                const sHasImage = typeof sProduct.image_512 === "string";
+                const sHasImage = typeof sProduct.image_url === "string" && sProduct.image_url.length > 0;
                 const sCategoryName = Array.isArray(sProduct.categ_id) ? sProduct.categ_id[1] : "Ratsiya";
                 return (
                   <article key={sProduct.id} className={styles.suggestionCard}>
                     <Link href={`/products/${sProduct.id}`} className={styles.sImageWrapper}>
                       {sHasImage ? (
                         <img
-                          src={`data:image/png;base64,${sProduct.image_512}`}
+                          src={sProduct.image_url}
                           alt={sProduct.name}
                           className={styles.sProductImage}
                           loading="lazy"

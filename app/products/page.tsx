@@ -155,7 +155,7 @@ export default async function V3ProductsPage({ searchParams }: PageProps) {
               <>
                 <div className={styles.grid}>
                   {products.map((product) => {
-                    const hasImage = typeof product.image_512 === "string";
+                    const hasImage = typeof product.image_url === "string" && product.image_url.length > 0;
                     const categoryName = Array.isArray(product.categ_id)
                       ? product.categ_id[1]
                       : "Ratsiya";
@@ -165,7 +165,7 @@ export default async function V3ProductsPage({ searchParams }: PageProps) {
                         <Link href={`/products/${product.id}`} className={styles.imageWrapper}>
                           {hasImage ? (
                             <img
-                              src={`data:image/png;base64,${product.image_512}`}
+                              src={product.image_url}
                               alt={product.name}
                               className={styles.productImage}
                               loading="lazy"

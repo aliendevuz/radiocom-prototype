@@ -10,7 +10,7 @@ const ODOO_PASSWORD = process.env.ODOO_API_KEY || process.env.ODOO_PASSWORD || '
 export interface OdooProductImage {
   id: number;
   name: string;
-  image_512: string | boolean;
+  image_url: string;
 }
 
 export interface OdooProduct {
@@ -19,7 +19,7 @@ export interface OdooProduct {
   list_price: number;
   description_sale: string | boolean;
   categ_id: [number, string] | boolean;
-  image_512: string | boolean;
+  image_url: string;
   product_template_image_ids?: number[];
   extra_images?: OdooProductImage[];
 }
@@ -131,14 +131,18 @@ export async function getFilteredProducts(options: FilterOptions): Promise<OdooP
       'search_read',
       [domain],
       {
-        fields: ['id', 'name', 'list_price', 'description_sale', 'categ_id', 'image_512'],
+        fields: ['id', 'name', 'list_price', 'description_sale', 'categ_id'],
         offset,
         limit,
         order
       }
     ]);
 
-    return products as OdooProduct[];
+    // Map to construct public CDN URLs instead of downloading binary base64
+    return (products as any[]).map(product => ({
+      ...product,
+      image_url: `${ODOO_URL}/web/image/product.template/${product.id}/image_512`
+    })) as OdooProduct[];
   } catch (error) {
     console.error('Error fetching filtered products from Odoo:', error);
     return [];
@@ -208,11 +212,13 @@ export async function getProductById(id: number): Promise<OdooProduct | null> {
       'read',
       [[id]],
       {
-        fields: ['id', 'name', 'list_price', 'description_sale', 'categ_id', 'image_512', 'product_template_image_ids']
+        fields: ['id', 'name', 'list_price', 'description_sale', 'categ_id', 'product_template_image_ids']
       }
     ]);
     if (Array.isArray(products) && products.length > 0) {
       const product = products[0] as OdooProduct;
+      product.image_url = `${ODOO_URL}/web/image/product.template/${product.id}/image_1920`;
+
       if (product.product_template_image_ids && product.product_template_image_ids.length > 0) {
         try {
           const extraImages = await callOdoo('object', 'execute_kw', [
@@ -222,9 +228,13 @@ export async function getProductById(id: number): Promise<OdooProduct | null> {
             'product.image',
             'read',
             [product.product_template_image_ids],
-            { fields: ['id', 'name', 'image_512'] }
+            { fields: ['id', 'name'] }
           ]);
-          product.extra_images = extraImages as OdooProductImage[];
+          product.extra_images = (extraImages as any[]).map(img => ({
+            id: img.id,
+            name: img.name,
+            image_url: `${ODOO_URL}/web/image/product.image/${img.id}/image_512`
+          }));
         } catch (err) {
           console.error("Error fetching extra images from Odoo:", err);
           product.extra_images = [];

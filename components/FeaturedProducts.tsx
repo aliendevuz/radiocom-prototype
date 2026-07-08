@@ -12,8 +12,8 @@ export default async function FeaturedProducts() {
 
   // Helper to get image src
   const getImageSrc = (product: OdooProduct) => {
-    if (product.image_512 && typeof product.image_512 === 'string') {
-      return `data:image/png;base64,${product.image_512}`;
+    if (product.image_url && typeof product.image_url === 'string') {
+      return product.image_url;
     }
     return '/logo-black.svg'; // fallback placeholder
   };
